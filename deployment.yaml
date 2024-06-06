@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: event-forwarder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-event-forwarder
+  template:
+    metadata:
+      labels:
+        app: k8s-event-forwarder
+    spec:
+      serviceAccountName: event-sa
+      containers:
+      - name: k8s-event-forwarder
+        image: localhost:5000/cdevents/k8s-event-forwarder:latest
+        env:
+        - name: ENDPOINT_URL
+          value: "http://your-endpoint-url" # Replace with your actual endpoint
